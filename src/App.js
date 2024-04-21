@@ -1,10 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import TodoList from './TodoList';
 
 function App() {
   const [todoList, setTodoList] = useState([]);
   const [currentTodoName, setCurrentTodoName] = useState("");
+
+  useEffect(() => {
+    if (localStorage.todoList) {
+      setTodoList(JSON.parse(localStorage.todoList));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (todoList.length > 0) {
+      localStorage.todoList = JSON.stringify(todoList);
+    }
+  }, [todoList]);
 
   function addTodo() {
     if (!currentTodoName) return;
